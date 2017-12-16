@@ -1,0 +1,22 @@
+<div class="page-container">
+<div class="iw_wrapper">
+    <ul class="iw_thumbs" id="iw_thumbs">
+        <li ng-repeat="image in pics">
+            <img ng-click="changePic($event)" src="{{image.file_name}}" data-img="{{image.file_name}}" alt="Thumb10"/>
+            <div>
+                <h2>{{image.sender}}</h2>
+                <p>Far far away, {{image.comment}}.</p>
+            </div>
+        </li>
+
+    </ul>
+</div>
+<div id="iw_ribbon" class="iw_ribbon"> <span class="iw_close"></span> <span class="iw_zoom">Click thumb to zoom</span> </div>
+</div>
+
+<div id="js-imgview-mask" class="imgview-mask" style="display: none;" ng-click="closePic()">//黑盒子
+</div>
+<div id="js-imgview" class="show-img">//显示的图片
+    <img id="bigimage">
+    <a ng-click="closePic()">X</a>
+</div>
