@@ -1,5 +1,3 @@
-var dwControllers = angular.module('dw.controllers', []);
-
 dwControllers.controller('HomePageController', ['$state', '$scope', function($state, $scope) {
 
     $scope.toAlbums = function() {

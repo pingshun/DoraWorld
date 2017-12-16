@@ -21,7 +21,7 @@ doraWorld.config(['$stateProvider', function($stateProvider) {
             controller: 'PicWallController',
             resolve: {
                 test_str: ['$stateParams', function($stateParams) {
-                    return 'aaaaaa';
+                    return 'this is a test';
                 }]
             }
         })
