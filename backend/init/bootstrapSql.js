@@ -22,7 +22,7 @@ var all_sqls = [
         ")"
     ,
 
-    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 0, 'admin', 'admin@emontech.cn', 'admin')",
+    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 0, 'admin0', 'admin@emontech.cn', 'admin')",
 ];
 
 
