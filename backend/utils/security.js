@@ -80,6 +80,7 @@ var security = {
             } else {
                 req.logIn(user, function(err) {
                     if(err) {
+                        console.log('asdf');
                         res.status(500).json(err);
                     } else {
                         res.status(200).json(filterUser(user));

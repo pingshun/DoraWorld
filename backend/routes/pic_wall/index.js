@@ -1,3 +1,3 @@
-module.exports = function(app) {
-    require('./routes')(app);
+module.exports = function(app, security) {
+    require('./routes')(app, security);
 };

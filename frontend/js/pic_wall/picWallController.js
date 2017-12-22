@@ -1,14 +1,15 @@
-dwControllers.controller('PicWallController', ['$state', '$scope', '$window', '$http', 'test_str',
-    function($state, $scope, $window, $http, test_str) {
+dwControllers.controller('PicWallController', ['$state', '$scope', '$window', '$http', '$modal', 'test_str', 'dwPicWallService',
+    function($state, $scope, $window, $http, $modal, test_str, dwPicWallService) {
 
-    $scope.test_str = test_str;
-    $scope.pics = [];
+        $scope.test_str = test_str;
+        $scope.pics = [];
 
-    $scope.getAllPics = function() {
-        $http.get("/api/pic_wall/gets_all").success(function(data){
-            $scope.pics = data;
-        })
-    }
+        dwPicWallService.getAllPictures()
+            .then(
+                function (data) {
+                    $scope.pics = angular.copy(data);
+                }
+            );
 
     //点击图片时放大显示图片
     $scope.changePic=function($event){
@@ -28,5 +29,11 @@ dwControllers.controller('PicWallController', ['$state', '$scope', '$window', '$
 
     }
 
-    $scope.getAllPics();
+    $scope.addPicture = function () {
+        $modal.open({
+            templateUrl: '/templates/pic_wall/uploadPic.html',
+            controller: 'UploadPicController'
+        });
+    }
+
 }]);

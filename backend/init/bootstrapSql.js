@@ -6,6 +6,7 @@ var all_sqls = [
     //"ALTER DATABASE DoraWorld COLLATE utf8_general_ci ",
 
     "DROP TABLE IF EXISTS dw_user",
+    "DROP TABLE IF EXISTS dw_picture",
 
     "CREATE TABLE dw_user ( " +
         "id INT NOT NULL AUTO_INCREMENT, " +
@@ -19,10 +20,18 @@ var all_sqls = [
         "reset_pw_req_id VARCHAR(36)," +
 
         "PRIMARY KEY (id) " +
-        ")"
-    ,
+    ")",
 
-    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 0, 'admin0', 'admin@emontech.cn', 'admin')",
+    "CREATE TABLE dw_picture ( " +
+        "id INT NOT NULL AUTO_INCREMENT, " +
+        "uploader VARCHAR(100) NOT NULL, " +
+        "file_name VARCHAR(100) NOT NULL, " +
+        "message VARCHAR(10000), " +
+
+        "PRIMARY KEY (id) " +
+    ")",
+
+    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 0, 'admin', 'admin@emontech.cn', 'admin')",
 ];
 
 

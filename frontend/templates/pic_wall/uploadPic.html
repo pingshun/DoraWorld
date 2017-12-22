@@ -1,0 +1,60 @@
+<section>
+    <div class="modal-header">
+        <h3>
+            上传图片
+            <a class="close" ng-click="close()">&times;</a>
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div ng-if="error_message">
+            <div class="alert alert-{{ error_message.type }}" role="alert">
+                <i class="fa fa-info-circle" ng-if="error_message.type === 'info'"></i>
+                <i class="fa fa-warning" ng-if="error_message.type !== 'info'"></i>
+                {{ error_message.text }}
+            </div>
+        </div>
+        <div class="input-group">
+            <!--
+            <div ng-repeat="item in thumb">
+                <!-- 采用angular循环的方式，对存入thumb的图片进行展示 >
+                <label>
+                    <img style="height:40px;" ng-src="{{item.imgSrc}}"/>
+                </label>
+                <span ng-if="item.imgSrc" ng-click="img_del($index)"></span>
+            </div>
+            <div ng-repeat="item in thumb_default">
+                <!-- 这里之所以写个循环，是为了后期万一需要多个‘加号’框 >
+                <label>
+                    <input type="file" id="one-input" accept="image/*" file-model="images" onchange="angular.element(this).scope().img_upload(this.files)"/>
+                </label>
+            </div>
+            -->
+
+            <div>
+                <label>
+                    <img ng-show="thumb.src" style="height:60px;" ng-src="{{thumb.src}}"/>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="file" id="one-input" accept="image/*" file-model="images" onchange="angular.element(this).scope().img_upload(this.files)"/>
+                </label>
+            </div>
+
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-commenting-o"></i></span>
+            <textarea type="text" class="form-control" name="message" ng-model="message" placeholder="在这里写个留言吧"/>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-sm" ng-click="close()">取消</button>
+        <button class="btn btn-success btn-sm" busy="save()" busy-disabled="!uploaded_file">保存</button>
+    </div>
+
+
+
+</section>

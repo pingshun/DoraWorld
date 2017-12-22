@@ -1,4 +1,9 @@
-var doraWorld = angular.module('doraWorld', [ 'ui.router', 'duScroll', 'ngAnimate', 'ui.bootstrap', 'angular-loading-bar', 'toastr', 'bootstrap-switch', 'common', 'dw.controllers']);
+var doraWorld = angular.module('doraWorld',
+    [
+        'ui.router', 'duScroll', 'ngAnimate', 'ui.bootstrap', 'angular-loading-bar', 'toastr', 'bootstrap-switch',
+        'common', 'dw.controllers'
+    ]
+);
 
 doraWorld.config(['$urlRouterProvider', '$locationProvider', '$stateProvider', function($urlRouterProvider, $locationProvider, $stateProvider) {
     $locationProvider.html5Mode(true);
