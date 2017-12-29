@@ -1,4 +1,4 @@
-dwControllers.controller('UploadPicController', ['$scope', '$modalInstance', 'toastr', 'dwPicWallService', function($scope, $modalInstance, toastr, dwPicWallService) {
+dwControllers.controller('UploadPicController', ['$scope', '$uibModalInstance', 'toastr', 'dwPicWallService', function($scope, $uibModalInstance, toastr, dwPicWallService) {
     $scope.reader = new FileReader();   //创建一个FileReader接口
     $scope.form = {     //用于绑定提交内容，图片或其他数据
         image:{},
@@ -8,7 +8,7 @@ dwControllers.controller('UploadPicController', ['$scope', '$modalInstance', 'to
     $scope.message = "";
 
     $scope.close = function() {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 
     $scope.img_upload = function(files) {

@@ -10,17 +10,17 @@ common.config(['$stateProvider', function($stateProvider) {
         })
 }]);
 
-common.factory('commonModalFactory', ['$modal', function($modal) {
+common.factory('commonModalFactory', ['$uibModal', function($uibModal) {
     return {
         showSignInModal: function() {
-            var modal = $modal.open({
+            var modal = $uibModal.open({
                 templateUrl: '/templates/common/account/sign_in.html',
                 controller: 'SignInController'
             });
             return modal.result;
         },
         showPagedownHelpModal: function() {
-            var modal = $modal.open({
+            var modal = $uibModal.open({
                 templateUrl: '/modules/framework/pagedownHelpModal.html',
                 controller: 'PagedownHelpModalController'
             });

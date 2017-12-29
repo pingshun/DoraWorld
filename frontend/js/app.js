@@ -1,6 +1,6 @@
 var doraWorld = angular.module('doraWorld',
     [
-        'ui.router', 'duScroll', 'ngAnimate', 'ui.bootstrap', 'angular-loading-bar', 'toastr', 'bootstrap-switch',
+        'ui.router', 'duScroll', 'ngAnimate', 'ui.bootstrap', 'angular-loading-bar', 'toastr',
         'common', 'dw.controllers'
     ]
 );

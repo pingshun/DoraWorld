@@ -5,29 +5,24 @@ dwModules.factory('dwPicWallApi', ['$http', 'promiseService', function($http, pr
                 $http.get("/api/pic_wall/gets_all").then(
                     function (res) {
                         promise.resolve(res.data);
-                    },
-                    function (err) {
-                        promise.reject(err);
-                    }
-                );
+                    }, promise.reject);
             });
         },
         uploadPicture: function (file, message) {
             return promiseService.wrap(function(promise) {
                 var data = new FormData();
                 data.append('image', file);
-                data.append('msssage', message);
+                data.append('message', message);
+
                 $http({
                     method: 'post',
                     enctype: "multipart/form-data",
                     url: CONSTANT.HOST + 'api/pic_wall/upload_pic',
                     data:data,
                     headers: {'Content-Type': undefined},
-                }).success(function(data) {
-                    promise.resolve(data);
-                }).error(function (err) {
-                    promise.reject(err);
-                })
+                }).then(function(res) {
+                    promise.resolve(res.data);
+                }, promise.reject);
             });
         }
     };
@@ -41,6 +36,10 @@ dwModules.provider('dwPicWallService', ['$httpProvider', function() {
                     return promiseService.wrap(function(promise) {
                         dwPicWallApi.getAllPictures().then(
                             function (data) {
+                                angular.forEach(data, function (image, index) {
+                                   data[index]['url'] = 'images/pic_wall/' + image.file_name;
+                                   data[index]['caption'] = image.message;
+                                });
                                 promise.resolve(data);
                             },
                             function (err) {

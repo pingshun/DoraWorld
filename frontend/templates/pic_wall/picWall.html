@@ -5,7 +5,7 @@
     <div class="iw_wrapper">
         <ul class="iw_thumbs" id="iw_thumbs">
             <li ng-repeat="image in pics">
-                <img ng-click="changePic($event)" src="images/pic_wall/{{image.file_name}}" data-img="images/pic_wall/{{image.file_name}}" alt="Thumb10"/>
+                <img ng-click="changePic($index)" ng-src="{{image.url}}" alt="{{image.caption}}"/>
                 <div>
                     <h2>{{image.uploader}}</h2>
                     <p>Far far away, {{image.message}}.</p>
@@ -14,12 +14,4 @@
 
         </ul>
     </div>
-
-    <div id="js-imgview-mask" class="imgview-mask" style="display: none;" ng-click="closePic()"> <!-- 黑盒子 -->
-    </div>
-    <div id="js-imgview" class="show-img"> <!-- 显示的图片 -->
-        <img id="bigimage">
-        <a ng-click="closePic()">X</a>
-    </div>
-
 </div>

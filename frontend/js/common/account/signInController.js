@@ -1,5 +1,5 @@
-common.controller('SignInController', ['$scope', '$modalInstance', 'toastr', 'dwSecurity',
-    function($scope, $modalInstance, toastr, dwSecurity) {
+common.controller('SignInController', ['$scope', '$uibModalInstance', 'toastr', 'dwSecurity',
+    function($scope, $uibModalInstance, toastr, dwSecurity) {
         // Initialization
         $scope.mode = 'login';
         $scope.userData = {};
@@ -9,7 +9,7 @@ common.controller('SignInController', ['$scope', '$modalInstance', 'toastr', 'dw
             $scope.cancel();
         };
         $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
         $scope.toggle = function() {
             if($scope.mode === 'login') {
