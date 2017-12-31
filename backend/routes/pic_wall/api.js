@@ -43,5 +43,37 @@ module.exports = {
                 }
             }
         );
+    },
+    deletePictures: function (req, res, context) {
+        console.log(context);
+
+        var delete_ids = req.body.delete_ids;
+        if (delete_ids.length > 0) {
+
+            dwPicture.getsByFields({id: delete_ids}, function (error, result) {
+                if (error) {
+                    res.status(500).json({error: 'Internal Server Error'});
+                } else {
+                    var file_names = [];
+                    result.forEach(function (picture, index) {
+                        file_names.push(path.join(config.server.fe_folder, 'images', 'pic_wall', picture.file_name));
+                    });
+
+                    dwPicture.deleteByIds(delete_ids, function (error, result) {
+                        if (error) {
+                            res.status(500).json({error: 'Internal Server Error'});
+                        } else {
+                            file_names.forEach(function (name, index) {
+                                if (fs.existsSync(name)) {
+                                    fs.unlinkSync(name);
+                                }
+                            });
+                            res.status(200).json({success: 1, deleted: result.affectedRows});
+                        }
+                    })
+                }
+            });
+
+        }
     }
 };

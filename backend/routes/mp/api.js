@@ -1,5 +1,6 @@
 var crypto = require('crypto'),
-    xml2js = require('xml2js');
+    xml2js = require('xml2js'),
+    path = require('path');
 
 var config = require('./../../../config')
 
@@ -29,6 +30,10 @@ var verify_signature = function (req, res) {
 }
 
 module.exports = {
+    show_about: function (req, res, context) {
+        console.log(context);
+        res.sendFile('about.html', { root: path.join(config.server.fe_folder, 'wx'), title: 'express' });
+    },
     interface_connect: function (req, res, context) {
         console.log(context);
         var echostr = req.query.echostr;

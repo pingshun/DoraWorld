@@ -24,6 +24,19 @@ dwModules.factory('dwPicWallApi', ['$http', 'promiseService', function($http, pr
                     promise.resolve(res.data);
                 }, promise.reject);
             });
+        },
+        deletePicture: function (ids) {
+            return promiseService.wrap(function(promise) {
+                var data = {delete_ids: ids};
+
+                $http({
+                    method: 'post',
+                    url: CONSTANT.HOST + 'api/pic_wall/delete_pic',
+                    data: data,
+                }).then(function (res) {
+                    promise.resolve(res.data);
+                }, promise.reject);
+            });
         }
     };
 }]);
@@ -67,6 +80,30 @@ dwModules.provider('dwPicWallService', ['$httpProvider', function() {
                                     error_message: {
                                         type: 'danger',
                                         text: '上传照片失败！'
+                                    }
+                                });
+                            });
+                    });
+                },
+                deletePicture: function (ids) {
+                    return promiseService.wrap(function(promise) {
+                        dwPicWallApi.deletePicture(ids)
+                            .then(function(res) {
+                                if(res.success) {
+                                    promise.resolve(res);
+                                } else {
+                                    promise.reject({
+                                        error_message: {
+                                            type: 'danger',
+                                            text: '删除照片失败！'
+                                        }
+                                    });
+                                }
+                            }, function(err) {
+                                promise.reject({
+                                    error_message: {
+                                        type: 'danger',
+                                        text: '删除照片失败！'
                                     }
                                 });
                             });

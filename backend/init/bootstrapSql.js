@@ -31,7 +31,7 @@ var all_sqls = [
         "PRIMARY KEY (id) " +
     ")",
 
-    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 0, 'admin', 'admin@emontech.cn', 'admin')",
+    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 1, 'admin', 'admin@emontech.cn', 'admin')",
 ];
 
 

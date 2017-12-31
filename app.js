@@ -58,6 +58,7 @@ app.post('/logout', security.logout);
 app.get('/current_user', security.sendCurrentUser);
 
 require('./backend/routes')(app, security);
+
 // Handle unmatched api
 app.get('/api/*', function(req, res) {
     res.status(400).json({ message: 'Bad request.' });

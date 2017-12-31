@@ -13,5 +13,11 @@ module.exports = function(app, security) {
         security.authenticationRequired(req, res, function(req, res) {
             api.uploadPicture(req, res, '>>> upload a picture');
         });
-    })
+    });
+
+    app.post('/api/pic_wall/delete_pic', function (req, res) {
+        security.authenticationRequired(req, res, function(req, res) {
+            api.deletePictures(req, res, '>>>  delete pictures');
+        });
+    });
 };

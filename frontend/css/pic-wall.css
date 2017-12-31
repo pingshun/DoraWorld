@@ -18,23 +18,14 @@ ul.iw_thumbs li div{
 }
 ul.iw_thumbs li div h2{
     font-family: 'Wire One', arial, serif;
-    font-size:38px;
+    font-size:12px;
     text-transform:uppercase;
     text-shadow:0px 0px 1px #fff;
 }
 ul.iw_thumbs li div p{
-    font-size:11px;
+    font-size:8px;
     line-height:16px;
     font-style:italic;
-}
-ul.iw_thumbs li:nth-child(1){
-    margin-left:10px;
-}
-ul.iw_thumbs li:nth-child(even){
-    margin-top:30px;
-}
-ul.iw_thumbs li:nth-child(3n){
-    margin-left:20px;
 }
 ul.iw_thumbs li img{
     border:7px solid #fff;
@@ -50,12 +41,19 @@ ul.iw_thumbs li img:hover{
     box-shadow:1px 1px 7px #777;
 }
 ul.iw_thumbs li:nth-child(even) img{
-    height:90px;
+    height:60px;
+    margin-left: 30px;
 }
 ul.iw_thumbs li:nth-child(odd) img{
-    height:60px;
+    margin-top: -20px;
+    height:90px;
+}
+ul.iw_thumbs li:nth-child(3n) img{
+    margin-top: 60px;
 }
 ul.iw_thumbs li:nth-child(5n) img{
+    margin-top: 20px;
+    margin-left: 30px;
     height:120px;
 }
 ul.iw_thumbs li:nth-child(6n) img{

@@ -67,7 +67,7 @@ module.exports = {
                     } else {
                         var where_str = key;
 
-                        if (value.toString().indexOf(',') > 0) {
+                        if (typeof value === 'string' && value.toString().indexOf(',') > 0) {
                             value = value.split(',');
                         }
 
@@ -110,13 +110,13 @@ module.exports = {
         });
     },
     delete: function(table_name, data, cb) {
-        if (err) {
-            console.log(err);
-            if (cb) {
-                cb(err, {});
-            }
-        } else {
-            pool.getConnection(function (err, connection) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                console.log(err);
+                if (cb) {
+                    cb(err, {});
+                }
+            } else {
                 var sql_delete = "DELETE FROM " + table_name;
                 var where = ' WHERE ';
                 var values = [];
@@ -138,8 +138,55 @@ module.exports = {
                     }
                     connection.release();
                 });
-            });
+            }
+
+        });
+    },
+    delete_by_ids: function (table_name, ids, cb) {
+        if (ids && ids.length < 1) {
+            console.log('no ids supplied !');
+            if (cb) {
+                cb({error: 'no ids supplied !'}, {});
+            }
         }
+
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                console.log(err);
+                if (cb) {
+                    cb(err, {});
+                }
+            } else {
+                var sql_delete = "DELETE FROM " + table_name;
+                var where = ' WHERE id IN (';
+                var ids_str = '';
+                ids.forEach(function (id, index) {
+                    if (id) {
+                        ids_str += (ids_str === '') ? id : (', ' + id);
+                    }
+                });
+
+                if (ids_str === '') {
+                    console.log('no ids supplied !');
+                    if (cb) {
+                        cb({error: 'no ids supplied !'}, {});
+                    }
+                }
+
+                sql_delete = sql_delete + where + ids_str + ')';
+                connection.query(sql_delete, function (err, result) {
+                    console.log(result);
+                    if (err) {
+                        console.log(err);
+                    }
+                    if (cb) {
+                        cb(err, result);
+                    }
+                    connection.release();
+                });
+            }
+
+        });
     },
     update: function(table_name, data, cb) {
         var id = data.id;
