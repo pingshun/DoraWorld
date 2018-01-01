@@ -1,114 +1,120 @@
 <div class="page-container row">
-    <div class="left-column col-sm-4">
-        <div class="profile-photo inner">
-            <img ng-src="{{ user.photo === 'default' ? 'images/account/dora_default_photo.png' : user.photo }}" alt="avatar" class="img-circle">
-        </div>
-        <div class="profile-general inner">
-            <h4>{{ user.user_name }}</h4>
-            <hr/>
-            <span><i class="fa fa-clock-o"></i> 于 {{ user.create_time | cnDate }} 加入 e漫</span>
-            <hr/>
-            <div class="row">
-                <div class="col-sm-4">
-                    <span>
-                        <h4><a>{{ user.articlesCount }}</a></h4>
-                        文章
-                    </span>
-                </div>
-                <div class="col-sm-4">
-                    <span>
-                        <h4><a>{{ user.recommendedCount }}</a></h4>
-                        推荐
-                    </span>
-                </div>
-                <div class="col-sm-4">
-                    <span>
-                        <h4><a>{{ user.followedCount }}</a></h4>
-                        关注
-                    </span>
+    <div ng-show="!user.id" class="alert alert-danger" role="alert">
+        <i class="fa fa-info-circle"></i>
+        该用户不存在!
+    </div>
+    <div ng-show="user.id">
+        <div class="left-column col-sm-4">
+            <div class="profile-photo inner">
+                <img ng-src="{{ user.photo === 'default' ? 'images/account/dora_default_photo.png' : user.photo }}" alt="avatar" class="img-circle">
+            </div>
+            <div class="profile-general inner">
+                <h4>{{ user.user_name }}</h4>
+                <hr/>
+                <span><i class="fa fa-clock-o"></i> 于 {{ user.create_time | cnDate }} 加入 e漫</span>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span>
+                            <h4><a>{{ user.articlesCount }}</a></h4>
+                            文章
+                        </span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span>
+                            <h4><a>{{ user.recommendedCount }}</a></h4>
+                            推荐
+                        </span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span>
+                            <h4><a>{{ user.followedCount }}</a></h4>
+                            关注
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="right-column col-sm-8">
-        <ul class="nav nav-tabs">
-            <li role="presentation" ng-class="{ active: tab === 'activities' }" ng-click="switchTab('activities')">
-                <a>
-                    <i class="fa fa-rss"></i> 相关动态
-                </a>
-            </li>
-            <li role="presentation" ng-class="{ active: tab === 'profile' }" ng-click="switchTab('profile')">
-                <a>
-                    <i class="fa fa-newspaper-o"></i> <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>的资料
-                </a>
-            </li>
-            <li role="presentation" ng-class="{ active: tab === 'collections' }" ng-click="switchTab('collections')">
-                <a>
-                    <i class="fa fa-bookmark"></i> <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>的收藏
-                </a>
-            </li>
+        <div class="right-column col-sm-8">
+            <ul class="nav nav-tabs">
+                <li role="presentation" ng-class="{ active: tab === 'activities' }" ng-click="switchTab('activities')">
+                    <a>
+                        <i class="fa fa-rss"></i> 相关动态
+                    </a>
+                </li>
+                <li role="presentation" ng-class="{ active: tab === 'profile' }" ng-click="switchTab('profile')">
+                    <a>
+                        <i class="fa fa-newspaper-o"></i> <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>的资料
+                    </a>
+                </li>
+                <li role="presentation" ng-class="{ active: tab === 'collections' }" ng-click="switchTab('collections')">
+                    <a>
+                        <i class="fa fa-bookmark"></i> <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>的收藏
+                    </a>
+                </li>
 
-            <li role="presentation" ng-class="{ active: tab === 'contributions' }" ng-click="switchTab('contributions')">
-                <a>
-                    <i class="fa fa-pencil-square-o"></i> <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>的贡献
-                </a>
-            </li>
-        </ul>
-        <br/><br/>
-        <div ng-if="tab === 'activities'">
-            <div ng-repeat="activity in user.activities">
+                <li role="presentation" ng-class="{ active: tab === 'contributions' }" ng-click="switchTab('contributions')">
+                    <a>
+                        <i class="fa fa-pencil-square-o"></i> <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>的贡献
+                    </a>
+                </li>
+            </ul>
+            <br/><br/>
+            <div ng-if="tab === 'activities'">
+                <div ng-repeat="activity in user.activities">
+                    <div class="col-sm-12">
+                        <span style="color: darkgray">
+                            <strong>{{ activity.activity }}</strong>
+                        </span>
+                        <span class="pull-right">
+                            {{ activity.time | cnDate }}
+                        </span>
+                    </div>
+                    <div class="col-sm-12">
+                        <a ng-click="viewActivityDetails(activity)">
+                            {{ activity.activity }}
+                        </a>
+                    </div>
+                    <br/><br/><br/>
+                </div>
+                <div class="col-sm-12" ng-if="user.activities.length === 0">
+                    暂时还没有动态
+                </div>
+            </div>
+            <div ng-if="tab === 'collections'">
+                <div class="col-sm-12" ng-if="user.albumCollections.length === 0">
+                    暂时还没有收藏
+                </div>
+            </div>
+            <div ng-if="tab === 'profile'">
                 <div class="col-sm-12">
                     <span style="color: darkgray">
-                        <strong>{{ activity.activity }}</strong>
+                        <strong>邮  箱:</strong>
                     </span>
-                    <span class="pull-right">
-                        {{ activity.time | cnDate }}
+                    <span>
+                        {{ user.email }}
                     </span>
                 </div>
+            </div>
+            <div ng-if="tab === 'contributions'">
                 <div class="col-sm-12">
-                    <a ng-click="viewActivityDetails(activity)">
-                        {{ activity.activity }}
-                    </a>
-                </div>
-                <br/><br/><br/>
-            </div>
-            <div class="col-sm-12" ng-if="user.activities.length === 0">
-                暂时还没有动态
-            </div>
-        </div>
-        <div ng-if="tab === 'collections'">
-            <div class="col-sm-12" ng-if="user.albumCollections.length === 0">
-                暂时还没有收藏
-            </div>
-        </div>
-        <div ng-if="tab === 'profile'">
-            <div class="col-sm-12">
-                <span style="color: darkgray">
-                    <strong>邮  箱:</strong>
-                </span>
-                <span>
-                    {{ user.email }}
-                </span>
-            </div>
-        </div>
-        <div ng-if="tab === 'contributions'">
-            <div class="col-sm-12">
-                <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>上传的照片:
-                <button type="button" class="btn btn-sm pull-right" ng-show="in_edit"
-                        ng-click = "cancelEdit()">取消</button>
-                <button type="button" class="btn btn-sm btn-success pull-right" ng-show = "!in_edit"
-                        ng-click="showEdit()">管理</button>
-                <button type="button" class="btn btn-sm btn-danger pull-right"  ng-show = "in_edit" busy="deletePicture()">删除</button>
-                <div class="iw_wrapper">
-                    <ul class="iw_thumbs normal" id="iw_thumbs">
-                        <li ng-repeat="image in pics">
-                            <img ng-class="image.selected ? 'normal selected' : 'normal'" ng-click="changePic($index)" ng-src="{{image.url}}" alt="{{image.caption}}"/>
-                            <div id="div_pic_info_{{image.id}}">
-                                <p>{{image.uploader}}</p>
-                            </div>
-                        </li>
+                    <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>上传的照片:
+                    <button type="button" class="btn btn-sm pull-right" ng-show="in_edit"
+                            ng-click = "cancelEdit()">取消</button>
+                    <button type="button" class="btn btn-sm btn-success pull-right" ng-show = "isVisitor && !in_edit"
+                            ng-click="showEdit()">管理</button>
+                    <button type="button" class="btn btn-sm btn-danger pull-right"  ng-show = "in_edit" busy="deletePicture()">删除</button>
+                    <div class="iw_wrapper">
+                        <ul class="iw_thumbs normal" id="iw_thumbs">
+                            <li ng-repeat="image in pics">
+                                <img ng-class="image.selected ? 'normal selected' : 'normal'" ng-click="changePic($index)" ng-src="{{image.url}}" alt="{{image.caption}}"/>
+                                <div id="div_pic_info_{{image.id}}">
+                                    <p>{{image.uploader}}</p>
+                                </div>
+                            </li>
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

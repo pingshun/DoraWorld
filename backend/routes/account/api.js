@@ -7,23 +7,26 @@ module.exports = {
         console.log(context);
         var id = req.query.id;
         if (!id) {
-            res.status(200).json([]);
+            res.status(200).json({});
         }
         dwUser.getById(id, function (err, result) {
             if (err) {
                 console.log(err);
-                res.status(200).json([]);
+                res.status(200).json({});
             } else {
-                userActivity.getsByFields({user_id: result.id}, function (err, activities) {
-                    if (err) {
-                        result.activities = [];
-                        res.status(200).json(result);
-                    } else {
-                        result.activities = activities;
-                        res.status(200).json(result);
-                    }
-                });
-
+                if (result) {
+                    userActivity.getsByFields({user_id: result.id}, function (err, activities) {
+                        if (err) {
+                            result.activities = [];
+                            res.status(200).json(result);
+                        } else {
+                            result.activities = activities;
+                            res.status(200).json(result);
+                        }
+                    });
+                } else {
+                    res.status(200).json({});
+                }
             }
         });
     },

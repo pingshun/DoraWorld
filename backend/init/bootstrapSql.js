@@ -21,7 +21,7 @@ var all_sqls = [
         "photo VARCHAR(100) DEFAULT 'default', " +
         "create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), " +
         "token VARCHAR(10000), " +
-        "reset_pw_req_time TIMESTAMP, " +
+        "reset_pw_req_time TIMESTAMP NOT NULL DEFAULT '1970-01-01 12:00:01', " +
         "reset_pw_req_id VARCHAR(36), " +
 
         "PRIMARY KEY (id) " +
