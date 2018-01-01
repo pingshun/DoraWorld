@@ -75,6 +75,16 @@ module.exports = {
             //回复信息
             wechat.send(msg);
         });
+
+        wechat.on('image', function(session) {
+            session.replyNewsMsg([{
+                Title: '新鲜事',
+                Description: '点击查看今天的新鲜事',
+                PicUrl: 'http://www.dora-world.cn/images/pic_wall/1514787765625.jpg',
+                Url: 'http://www.dora-world.cn/images/pic_wall/1514787765625.jpg'
+            }]);
+        });
+
     },
 
 };
