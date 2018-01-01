@@ -54,15 +54,26 @@ module.exports = {
         //预处理
         wechat.handler(req, res);
 
+        //监听文本信息
+        wechat.text(function (data) {
 
+            //console.log(data.ToUserName);
+            //console.log(data.FromUserName);
+            //console.log(data.CreateTime);
+            //console.log(data.MsgType);
+            //...
 
-        wechat.on('image', function(session) {
-            session.replyNewsMsg([{
-                Title: '新鲜事',
-                Description: '点击查看今天的新鲜事',
-                PicUrl: 'http://www.dora-world.cn/images/pic_wall/1514787765625.jpg',
-                Url: 'http://www.dora-world.cn/images/pic_wall/1514787765625.jpg'
-            }]);
+            var msg = {
+                FromUserName : data.ToUserName,
+                ToUserName : data.FromUserName,
+                MsgType : "text",
+                Title : "宋冬野",
+                Description : "宋冬野——摩登天空7",
+                Content : "这是地址回复"
+            }
+
+            //回复信息
+            wechat.send(msg);
         });
 
     },
