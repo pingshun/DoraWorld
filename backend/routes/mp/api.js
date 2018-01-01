@@ -78,6 +78,7 @@ module.exports = {
 
         //监听图片信息
         wechat.image(function (data) {
+            console.log(data);
             var msg = {
                 FromUserName : data.ToUserName,
                 ToUserName : data.FromUserName,
