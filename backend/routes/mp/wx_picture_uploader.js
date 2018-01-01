@@ -11,6 +11,7 @@ module.exports = {
                 console.log(err);
                 return 0;
             } else {
+                console.log(result);
                 if (result.length == 0) {
                     var process = {
                         wx_user_id: wx_user_id,
