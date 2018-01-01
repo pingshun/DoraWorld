@@ -18,7 +18,10 @@ module.exports = {
                     };
 
                     wx_picture.createNew(process, function (err, result) {
-                       return err ? 0 : 1;
+                        if (error) {
+                            console.log(err);
+                        }
+                        return err ? 0 : 1;
                     });
                 } else {
                     var process = result[0];
@@ -28,6 +31,9 @@ module.exports = {
                     process.process_end = 0;
 
                     wx_picture.updateById(process.id, process, function (error, result) {
+                        if (error) {
+                            console.log(err);
+                        }
                         return error ? 0 : 1;
                     });
                 }
@@ -40,6 +46,7 @@ module.exports = {
             process_end: 0,
         }, function (err, result) {
             if (err) {
+                console.log(err);
                 return "十分抱歉，e漫服务器出现错误，请稍后重试!";
             } else {
                 if (result.length == 0) {
@@ -52,6 +59,7 @@ module.exports = {
 
                     wx_picture.updateById(process.id, process, function (error, result) {
                         if (error) {
+                            console.log(error);
                             return "十分抱歉，e漫服务器出现错误，请稍后重试!";
                         } else {
                             var picture = {
@@ -60,6 +68,9 @@ module.exports = {
                                 from_wx: 1,
                             };
                             dw_picture.createNew(picture, function (err, result) {
+                                if (error) {
+                                    console.log(err);
+                                }
                                return err ?  "十分抱歉，e漫服务器出现错误，请稍后重试!" : "上传图片成功！";
                             });
                         }
