@@ -1,6 +1,5 @@
-var crypto = require('crypto'),
-    xml2js = require('xml2js'),
-    path = require('path');
+var path = require('path');
+var wx_uploader = require('./wx_picture_uploader');
 
 
 var config = require('./../../../config');
@@ -39,13 +38,8 @@ module.exports = {
     },
     interface_connect: function (req, res, context) {
         console.log(context);
-        var echostr = req.query.echostr;
 
-        if (verify_signature(req, res)) {
-            res.send(echostr);
-        } else {
-            res.status(401).json({ message: 'signature verify failed.' });
-        }
+        wechat.checkSignature(req,res);
     },
     new_mp_message: function (req, res, context) {
         console.log(context);
@@ -63,7 +57,7 @@ module.exports = {
             //console.log(data.MsgType);
             //...
 
-            var msg = {
+            /*var msg = {
                 FromUserName : data.ToUserName,
                 ToUserName : data.FromUserName,
                 MsgType : "text",
@@ -73,21 +67,42 @@ module.exports = {
             }
 
             //回复信息
-            wechat.send(msg);
+            wechat.send(msg);*/
+
+            if (data.Content === "我要贴图") {
+                var replay_message = wx_uploader.start(data.FromUserName, data.CreateTime) ?
+                    "好的，下面请在5分钟内将你要贴的照片，发送给我." :
+                    "十分抱歉，e漫服务器出现错误，请稍后重试!";
+                var msg = {
+                    FromUserName : data.ToUserName,
+                    ToUserName : data.FromUserName,
+                    MsgType : "text",
+                    Content : replay_message
+                }
+                //回复信息
+                wechat.send(msg);
+            } else {
+                res.send('');
+            }
         });
 
         //监听图片信息
         wechat.image(function (data) {
             console.log(data);
+            var replay_message = wx_uploader.add_picture(data.FromUserName, data.CreateTime, data.PicUrl);
             var msg = {
                 FromUserName : data.ToUserName,
                 ToUserName : data.FromUserName,
-                MsgType : "image",
-                MediaId: data.MediaId
+                MsgType : "text",
+                Content : replay_message
             }
+            //回复信息
             wechat.send(msg);
         });
 
+        wechat.all(function (data) {
+            res.send('');
+        })
     },
 
 };

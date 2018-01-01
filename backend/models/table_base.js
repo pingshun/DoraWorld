@@ -21,6 +21,20 @@ TableBase.createNew = function(args, cb) {
     dbOperator.create(this._table_name, args, cb);
 };
 
+TableBase.updateById = function(id, args, cb) {
+    if (this._table_type === 'view') {
+        var error = {
+            error: 'Can not update DB line on view.',
+        };
+        if (cb) {
+            cb(error);
+        }
+    } else {
+        args.id = id;
+        dbOperator.update(this._table_name, args, cb);
+    }
+};
+
 TableBase.getById = function (id, cb) {
     dbOperator.query(this._table_name, {'id': id}, function(error, result) {
         if(cb) {
