@@ -99,7 +99,7 @@ module.exports = {
         //监听图片信息
         wechat.image(function (data) {
             console.log(data);
-            var replay_message = wx_uploader.add_picture(data.FromUserName, data.CreateTime, data.PicUrl).then(
+            wx_uploader.add_picture(data.FromUserName, data.CreateTime, data.PicUrl).then(
                 function (success) {
                     wechat.send({
                         FromUserName : data.ToUserName,
@@ -120,10 +120,6 @@ module.exports = {
                 }
             );
         });
-
-        wechat.all(function (data) {
-            res.send('');
-        })
     },
 
 };
