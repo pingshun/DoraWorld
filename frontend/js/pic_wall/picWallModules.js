@@ -54,7 +54,7 @@ dwModules.provider('dwPicWallService', ['$httpProvider', function() {
                         dwPicWallApi.getAllPictures(user_id).then(
                             function (data) {
                                 angular.forEach(data, function (image, index) {
-                                   data[index]['url'] = 'images/pic_wall/' + image.file_name;
+                                   data[index]['url'] = image.from_wx ? image.file_name : 'images/pic_wall/' + image.file_name;
                                    data[index]['caption'] = image.message;
                                 });
                                 promise.resolve(data);
