@@ -90,9 +90,9 @@ common.provider('dwSecurity', ['$httpProvider', function() {
                 }
             })
 
-			 $rootScope.$on('dw::security::logout', function () {
-			 localStore.removeItem('user');
-			 });
+            $rootScope.$on('dw::security::logout', function () {
+			    localStore.removeItem('user');
+            });
 
 
 			return {

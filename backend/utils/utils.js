@@ -1,9 +1,15 @@
 var util = require('util');
 
 module.exports = {
-    random_string: function (len) {
+    random_string: function (len, type) {
         len = len || 32;
-        var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        type = type || 'regular';
+        var chars = {
+            regular: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+            lower: 'abcdefghijklmnopqrstuvwxyz0123456789',
+            hex: 'abcdef0123456789',
+        };
+        var $chars = chars[type] || chars.regular;
         var maxPos = $chars.length;
         var str = '';
         for (var i = 0; i < len; i++) {

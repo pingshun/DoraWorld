@@ -2,6 +2,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var dwUser = require('./../models/dw_user');
+var encryptor = require('./encryptor');
 
 var filterUser = function(user) {
     if (user) {
@@ -11,8 +12,8 @@ var filterUser = function(user) {
                 email: user.email,
                 user_name: user.user_name,
                 role: user.role,
-/*                status: user.status,
-                photo: user.photo*/
+                create_time: user.create_time,
+                photo: user.photo
             }
         };
     } else {
@@ -42,7 +43,7 @@ var security = {
                     if (!result || result.length < 1) {
                         return done(null, false, { message: 'Incorrect username.' });
                     }
-                    if (result[0].password !== password) {
+                    if (!encryptor.validateHash(result[0].password, password)) {
                         return done(null, false, { message: 'Incorrect password.' });
                     }
                     return done(null, result[0]);
@@ -80,7 +81,6 @@ var security = {
             } else {
                 req.logIn(user, function(err) {
                     if(err) {
-                        console.log('asdf');
                         res.status(500).json(err);
                     } else {
                         res.status(200).json(filterUser(user));

@@ -1,9 +1,9 @@
 var api = require('./api');
 
 module.exports = function(app, security) {
-    app.get('/api/account/get_account', function(req, res) {
+    app.get('/api/account/get_user', function(req, res) {
         security.authenticationRequired(req, res, function(req, res) {
-            api.getAccountInfo(req, res, '>>> get account info !');
+            api.getUserInfo(req, res, '>>> get account info !');
         });
     });
     app.post('/api/account/register', function(req, res){

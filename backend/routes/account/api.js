@@ -1,14 +1,29 @@
-var dwUser = require('./../../models/dw_user')
+var dwUser = require('./../../models/dw_user'),
+    userActivity = require('./../../models/user_activity'),
+    encryptor  = require('./../../utils/encryptor');
 
 module.exports = {
-    getAccountInfo: function (req, res, context) {
+    getUserInfo: function (req, res, context) {
         console.log(context);
-        dwUser.getsAll(function (err, result) {
+        var id = req.query.id;
+        if (!id) {
+            res.status(200).json([]);
+        }
+        dwUser.getById(id, function (err, result) {
             if (err) {
                 console.log(err);
                 res.status(200).json([]);
             } else {
-                res.status(200).json(result);
+                userActivity.getsByFields({user_id: result.id}, function (err, activities) {
+                    if (err) {
+                        result.activities = [];
+                        res.status(200).json(result);
+                    } else {
+                        result.activities = activities;
+                        res.status(200).json(result);
+                    }
+                });
+
             }
         });
     },
@@ -31,7 +46,7 @@ module.exports = {
                 } else {
                     var user_data = {
                         user_name: req.body.username,
-                        password: req.body.password,
+                        password: encryptor.createHash(req.body.password),
                         email: req.body.email
                     };
                     dwUser.createNew(user_data, function (err, result) {
@@ -42,6 +57,11 @@ module.exports = {
                                 message: '创建用户失败!',
                             });
                         } else {
+                            var activity = {
+                                user_id: result.insertId,
+                                activity: "加入了 e漫 大家庭",
+                            };
+                            userActivity.createNew(activity);
                             res.send({
                                 success: 1,
                                 message: '创建用户成功'

@@ -27,7 +27,7 @@ app.set('view engine', 'html');
 app.use(session({ secret: config.server.session_secret }));
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(config.server.fe_folder, 'images/dora_logo.png')));
+app.use(favicon(path.join(config.server.fe_folder, 'images/dora_logo_180.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

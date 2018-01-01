@@ -1,28 +1,28 @@
 <div class="page-container">
     <h3>
         <i class="fa fa-image"></i>  e漫照片墙
+
+        <span class="pull-right ng-binding">
+            <button type="button" class="btn btn-sm" ng-show="in_edit"
+                    ng-click = "cancelEdit()">取消</button>
+            <button type="button" class="btn btn-sm btn-success" ng-show = "user && user.role === CONSTANT.USER_ROLE_ADMIN && !in_edit"
+                    ng-click="showEdit()">管理</button>
+            <button type="button" class="btn btn-sm btn-danger"  ng-show = "in_edit" busy="deletePicture()">删除</button>
+            <button type="button" class="btn btn-sm btn-success" busy="addPicture()">
+                <i class="fa fa-plus"></i>
+                我要贴图
+            </button>
+        </span>
     </h3>
-    <div class="page-command" style="margin-top: -35px;">
-        <button type="button" class="btn btn-sm" ng-show="in_edit"
-                ng-click = "cancelEdit()">取消</button>
-        <button type="button" class="btn btn-sm btn-success" ng-show = "user && user.user_name && !in_edit"
-                ng-click="showEdit()">维护</button>
-        <button type="button" class="btn btn-sm btn-danger"  ng-show = "in_edit" busy="deletePicture()">删除</button>
-        <button type="button" class="btn btn-sm btn-success" busy="addPicture()">我要贴图</button>
-    </div>
     <hr/>
 
 
     <div class="iw_wrapper">
         <ul class="iw_thumbs" id="iw_thumbs">
             <li ng-repeat="image in pics">
-                <input id="checkbox_pic_{{image.id}}"
-                       ng-show="in_edit && user && (user.role == CONSTANT.USER_ROLE_ADMIN || image.uploader === user.user_name)"
-                       ng-model="image.selected" type="checkbox" />
-                <img ng-click="changePic($index)" ng-src="{{image.url}}" alt="{{image.caption}}"/>
+                <img ng-class="image.selected ? 'selected' : ''" ng-click="changePic($index)" ng-src="{{image.url}}" alt="{{image.caption}}"/>
                 <div id="div_pic_info_{{image.id}}">
-                    <h2>{{image.uploader}}</h2>
-                    <p>Far far away, {{image.message}}.</p>
+                    <p>{{image.uploader}}</p>
                 </div>
             </li>
 

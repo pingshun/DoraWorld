@@ -3,10 +3,15 @@
  */
 common.config(['$stateProvider', function($stateProvider) {
     $stateProvider
-        .state('current_user', {
-            url: '/c_user',
-            templateUrl: '/templates/common/account/currentUser.html',
-            controller: 'CurrentUserController'
+        .state('user_profile', {
+            url: '/user_profile?id=',
+            templateUrl: '/templates/common/account/userProfile.html',
+            controller: 'UserProfileController',
+            resolve: {
+                user: ['$stateParams', 'userApi', function($stateParams, userApi) {
+                    return userApi.getUserById($stateParams.id, 'profile');
+                }]
+            }
         })
 }]);
 

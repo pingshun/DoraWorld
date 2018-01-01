@@ -21,10 +21,6 @@ body  {
     text-align: center;
 }
 
-.page-command {
-    text-align: right;
-}
-
 .nav, .pagination, .carousel, .panel-title a {
     cursor: pointer;
 }

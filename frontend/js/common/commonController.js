@@ -31,8 +31,8 @@ common.controller('MainMenuController', ['$rootScope', '$scope', '$state', 'toas
                     $state.go('pic_wall');
                 }
             },
-            { name: '讨论专区', icon: 'comments-o' },
-            { name: '数据统计', icon: 'area-chart' },
+/*            { name: '讨论专区', icon: 'comments-o' },
+            { name: '数据统计', icon: 'area-chart' },*/
             {
                 name: '关于本站',
                 icon: 'info',
@@ -69,10 +69,12 @@ common.controller('MainMenuController', ['$rootScope', '$scope', '$state', 'toas
             icon: 'user-circle',
             click: function () {
                 $scope.closeMenu();
-                $state.go('current_user');
+                if($rootScope.user && $rootScope.user.id) {
+                    $state.go('user_profile', { id: $rootScope.user.id });
+                }
             }
         },
-        addAlbum: {
+        /*addAlbum: {
             name: '创建专辑',
             icon: 'plus-square',
             click: function() {
@@ -87,7 +89,7 @@ common.controller('MainMenuController', ['$rootScope', '$scope', '$state', 'toas
 
                 $scope.closeMenu();
             }
-        }
+        }*/
     };
 
     $scope.menu = angular.copy(_defaultMenu);
@@ -106,7 +108,7 @@ common.controller('MainMenuController', ['$rootScope', '$scope', '$state', 'toas
     $scope.$on('dw::security::login', function() {
         $rootScope.user = dwSecurity.currentUser();
         console.log($rootScope.user);
-        _setButtons([ 'addArticle', 'addAlbum', 'currentUser' ]);
+        _setButtons([ 'currentUser' ]);
     });
     $scope.$on('dw::security::logout', function() {
         $rootScope.user = dwSecurity.currentUser();

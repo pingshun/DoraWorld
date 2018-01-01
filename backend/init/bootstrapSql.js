@@ -7,31 +7,52 @@ var all_sqls = [
 
     "DROP TABLE IF EXISTS dw_user",
     "DROP TABLE IF EXISTS dw_picture",
+    "DROP TABLE IF EXISTS user_activity",
+
+    "DROP VIEW IF EXISTS v_dw_picture",
 
     "CREATE TABLE dw_user ( " +
         "id INT NOT NULL AUTO_INCREMENT, " +
         "user_name VARCHAR(100) NOT NULL, " +
         "gender INTEGER, " +
-        "role INTEGER DEFAULT 1, " +
+        "role INTEGER DEFAULT 0, " +
         "password VARCHAR(100) NOT NULL, " +
         "email VARCHAR(100) NOT NULL, " +
+        "photo VARCHAR(100) DEFAULT 'default', " +
+        "create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), " +
         "token VARCHAR(10000), " +
-        "reset_pw_req_time BIGINT," +
-        "reset_pw_req_id VARCHAR(36)," +
+        "reset_pw_req_time TIMESTAMP, " +
+        "reset_pw_req_id VARCHAR(36), " +
 
         "PRIMARY KEY (id) " +
     ")",
 
     "CREATE TABLE dw_picture ( " +
         "id INT NOT NULL AUTO_INCREMENT, " +
-        "uploader VARCHAR(100) NOT NULL, " +
+        "uploader_id VARCHAR(100) NOT NULL, " +
         "file_name VARCHAR(100) NOT NULL, " +
         "message VARCHAR(10000), " +
+        "add_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), " +
 
         "PRIMARY KEY (id) " +
     ")",
 
-    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 1, 'admin', 'admin@emontech.cn', 'admin')",
+    "CREATE TABLE user_activity ( " +
+        "id INT NOT NULL AUTO_INCREMENT, " +
+        "user_id INT NOT NULL, " +
+        "time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), " +
+        "activity VARCHAR(1000), " +
+
+        "PRIMARY KEY (id) " +
+    ")",
+
+
+
+    //views
+    "CREATE VIEW v_dw_picture AS " +
+        "SELECT picture.*, user.user_name uploader FROM dw_picture picture, dw_user user WHERE picture.uploader_id = user.id ",
+
+    "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 1, '1aefc03c3abee2e111f77bd88d79436ffa1e133694ddf7a61735', 'admin@emontech.cn', 'admin')",
 ];
 
 

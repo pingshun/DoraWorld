@@ -3,19 +3,30 @@ var path = require('path'),
 
 var config = require('./../../../config'),
     utils = require('./../../utils/utils'),
-    dwPicture = require('./../../models/dw_picture');
+    dwPicture = require('./../../models/dw_picture'),
+    viewPicture = require('./../../models/v_dw_picture');
 
 module.exports = {
     getAllPics: function (req, res, context) {
         console.log(context);
-
-        dwPicture.getsAll(function (error, result) {
-            if (error) {
-                res.status(500).json({error: 'Internal Server Error'});
-            } else {
-                res.status(200).json(result);
-            }
-        });
+        var user_id = req.query.user_id;
+        if (user_id) {
+            viewPicture.getsByFields({uploader_id: user_id}, function (error, result) {
+                if (error) {
+                    res.status(500).json({error: 'Internal Server Error'});
+                } else {
+                    res.status(200).json(result);
+                }
+            });
+        } else {
+            viewPicture.getsAll(function (error, result) {
+                if (error) {
+                    res.status(500).json({error: 'Internal Server Error'});
+                } else {
+                    res.status(200).json(result);
+                }
+            });
+        }
     },
     uploadPicture: function (req, res, context) {
         console.log(context);
@@ -26,7 +37,7 @@ module.exports = {
 
         dwPicture.createNew(
             {
-                uploader: req.user.user_name,
+                uploader_id: req.user.id,
                 file_name: file_name,
                 message: req.body.message,
             },

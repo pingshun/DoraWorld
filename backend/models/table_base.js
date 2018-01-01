@@ -4,10 +4,19 @@ module.exports = TableBase;
 
 function TableBase() {}
 
+TableBase._table_type = 'table';
 TableBase._table_name = '';
 
 TableBase.preCreate = function(args) {};
 TableBase.createNew = function(args, cb) {
+    if (this._table_type === 'view') {
+        var error = {
+            error: 'Can not create DB line on view.',
+        };
+        if (cb) {
+            cb(error);
+        }
+    }
     this.preCreate(args);
     dbOperator.create(this._table_name, args, cb);
 };

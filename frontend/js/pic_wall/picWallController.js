@@ -16,7 +16,12 @@ dwControllers.controller('PicWallController', ['$state', '$scope', '$window', '$
 
         //点击图片时放大显示图片
         $scope.changePic=function(index){
-            Lightbox.openModal($scope.pics, index);
+            if ($scope.in_edit) {
+                var image = $scope.pics[index];
+                image.selected = !image.selected;
+            } else {
+                Lightbox.openModal($scope.pics, index);
+            }
         }
 
         $scope.showPicMenu = function(index, shown) {

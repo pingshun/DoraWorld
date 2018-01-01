@@ -1,3 +1,0 @@
-common.controller('CurrentUserController', [function () {
-
-}]);

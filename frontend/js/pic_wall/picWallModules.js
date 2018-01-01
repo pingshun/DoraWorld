@@ -1,8 +1,12 @@
 dwModules.factory('dwPicWallApi', ['$http', 'promiseService', function($http, promiseService) {
     return {
-        getAllPictures: function () {
+        getAllPictures: function (user_id) {
             return promiseService.wrap(function(promise) {
-                $http.get("/api/pic_wall/gets_all").then(
+                var url = "/api/pic_wall/gets_all";
+                if (user_id) {
+                    url += "?user_id=" + user_id;
+                }
+                $http.get(url).then(
                     function (res) {
                         promise.resolve(res.data);
                     }, promise.reject);
@@ -45,9 +49,9 @@ dwModules.provider('dwPicWallService', ['$httpProvider', function() {
     return {
         $get: ['dwPicWallApi', 'promiseService', function(dwPicWallApi, promiseService) {
             return {
-                getAllPictures: function () {
+                getAllPictures: function (user_id) {
                     return promiseService.wrap(function(promise) {
-                        dwPicWallApi.getAllPictures().then(
+                        dwPicWallApi.getAllPictures(user_id).then(
                             function (data) {
                                 angular.forEach(data, function (image, index) {
                                    data[index]['url'] = 'images/pic_wall/' + image.file_name;

@@ -5,3 +5,4 @@ config.js
 frontend/js/dest/dw-all.js
 frontend/upload
 frontend/images/pic_wall/*
+frontend/images/account/photos/*
