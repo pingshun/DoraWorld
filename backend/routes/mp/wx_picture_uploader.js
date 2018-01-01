@@ -3,11 +3,12 @@ var dw_picture = require('./../../models/dw_picture');
 
 module.exports = {
     start: function (wx_user_id, start_time) {
-        var upload_process = wx_picture.getsByFields({
+        wx_picture.getsByFields({
             wx_user_id: wx_user_id,
             process_end: 0,
         }, function (err, result) {
             if (err) {
+                console.log(err);
                 return 0;
             } else {
                 if (result.length == 0) {
