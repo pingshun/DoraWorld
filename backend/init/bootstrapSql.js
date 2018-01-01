@@ -33,7 +33,7 @@ var all_sqls = [
         "uploader_id VARCHAR(100) NOT NULL, " +
         "file_name VARCHAR(100) NOT NULL, " +
         "message VARCHAR(10000), " +
-        "from_wx INT NOT DEFAULT 0, " +
+        "from_wx INT NOT NULL DEFAULT 0, " +
         "add_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), " +
 
         "PRIMARY KEY (id) " +
