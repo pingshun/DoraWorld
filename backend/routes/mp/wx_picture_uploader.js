@@ -21,7 +21,7 @@ module.exports = {
                     };
 
                     wx_picture.createNew(process, function (err, result) {
-                        if (error) {
+                        if (err) {
                             defer.reject(err);
                         } else {
                             defer.resolve(1);
