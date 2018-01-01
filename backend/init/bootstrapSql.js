@@ -64,7 +64,7 @@ var all_sqls = [
 
     //views
     "CREATE VIEW v_dw_picture AS " +
-        "SELECT picture.*, user.user_name uploader FROM dw_picture picture, dw_user user WHERE picture.uploader_id = user.id ",
+        "SELECT picture.*, user.user_name uploader FROM dw_picture picture LEFT JOIN dw_user user on picture.uploader_id = user.id ",
 
     "INSERT INTO dw_user (user_name, role, password, email, token) values ('admin', 1, '1aefc03c3abee2e111f77bd88d79436ffa1e133694ddf7a61735', 'admin@emontech.cn', 'admin')",
 ];
