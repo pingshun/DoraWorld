@@ -1,15 +1,17 @@
+const Q = require('q');
+
 var wx_picture = require('./../../models/picture_from_wx');
 var dw_picture = require('./../../models/dw_picture');
 
 module.exports = {
     start: function (wx_user_id, start_time) {
+        var defer = Q.defer();
         wx_picture.getsByFields({
             wx_user_id: wx_user_id,
             process_end: 0,
         }, function (err, result) {
             if (err) {
-                console.log(err);
-                return 0;
+                defer.reject(err);
             } else {
                 if (result.length == 0) {
                     var process = {
@@ -20,9 +22,10 @@ module.exports = {
 
                     wx_picture.createNew(process, function (err, result) {
                         if (error) {
-                            console.log(err);
+                            defer.reject(err);
+                        } else {
+                            defer.resolve(1);
                         }
-                        return err ? 0 : 1;
                     });
                 } else {
                     var process = result[0];
@@ -33,25 +36,32 @@ module.exports = {
 
                     wx_picture.updateById(process.id, process, function (error, result) {
                         if (error) {
-                            console.log(err);
+                            defer.reject(err);
+                        } else {
+                            defer.resolve(1);
                         }
-                        return error ? 0 : 1;
                     });
                 }
             }
         });
+
+        return defer.promise;
     },
     add_picture: function (wx_user_id, time, picture_url) {
-        var upload_process = wx_picture.getsByFields({
+        var defer = Q.defer();
+        wx_picture.getsByFields({
             wx_user_id: wx_user_id,
             process_end: 0,
         }, function (err, result) {
             if (err) {
-                console.log(err);
-                return "十分抱歉，e漫服务器出现错误，请稍后重试!";
+                defer.reject(err);
             } else {
                 if (result.length == 0) {
-                    return '请按照上传图片的流程进行操作：首先发送"我要贴图"四个字的消息给我哦.';
+                    var error_message = '请按照上传图片的流程进行操作：首先发送"我要贴图"四个字的消息给我哦.';
+                    defer.reject({
+                        type: 1,
+                        message: error_message
+                    });
                 } else {
                     var process = result[0];
                     process.last_update = time;
@@ -60,8 +70,7 @@ module.exports = {
 
                     wx_picture.updateById(process.id, process, function (error, result) {
                         if (error) {
-                            console.log(error);
-                            return "十分抱歉，e漫服务器出现错误，请稍后重试!";
+                            defer.reject(error);
                         } else {
                             var picture = {
                                 uploader_id: wx_user_id,
@@ -70,14 +79,17 @@ module.exports = {
                             };
                             dw_picture.createNew(picture, function (err, result) {
                                 if (error) {
-                                    console.log(err);
+                                    defer.reject(error);
+                                } else {
+                                    defer.resolve(1);
                                 }
-                               return err ?  "十分抱歉，e漫服务器出现错误，请稍后重试!" : "上传图片成功！";
                             });
                         }
                     });
                 }
             }
         });
+
+        return defer.promise;
     }
 };

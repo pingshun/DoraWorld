@@ -70,20 +70,27 @@ module.exports = {
             wechat.send(msg);*/
 
             if (data.Content === "我要贴图") {
-                var success = wx_uploader.start(data.FromUserName, data.CreateTime);
-                console.log(success);
-
-                var replay_message =  success ?
-                    "好的，下面请在5分钟内将你要贴的照片，发送给我." :
-                    "十分抱歉，e漫服务器出现错误，请稍后重试!";
-                var msg = {
-                    FromUserName : data.ToUserName,
-                    ToUserName : data.FromUserName,
-                    MsgType : "text",
-                    Content : replay_message
-                }
-                //回复信息
-                wechat.send(msg);
+                var success = wx_uploader.start(data.FromUserName, data.CreateTime).then(
+                    function (success) {
+                        var replay_message = "好的，下面请在5分钟内将你要贴的照片，发送给我.";
+                        wechat.send({
+                            FromUserName : data.ToUserName,
+                            ToUserName : data.FromUserName,
+                            MsgType : "text",
+                            Content : replay_message
+                        });
+                    },
+                    function (error) {
+                        console.log(error);
+                        var replay_message = "十分抱歉，e漫服务器出现错误，请稍后重试!";
+                        wechat.send({
+                            FromUserName : data.ToUserName,
+                            ToUserName : data.FromUserName,
+                            MsgType : "text",
+                            Content : replay_message
+                        });
+                    }
+                );
             } else {
                 res.send('');
             }
@@ -92,15 +99,26 @@ module.exports = {
         //监听图片信息
         wechat.image(function (data) {
             console.log(data);
-            var replay_message = wx_uploader.add_picture(data.FromUserName, data.CreateTime, data.PicUrl);
-            var msg = {
-                FromUserName : data.ToUserName,
-                ToUserName : data.FromUserName,
-                MsgType : "text",
-                Content : replay_message
-            }
-            //回复信息
-            wechat.send(msg);
+            var replay_message = wx_uploader.add_picture(data.FromUserName, data.CreateTime, data.PicUrl).then(
+                function (success) {
+                    wechat.send({
+                        FromUserName : data.ToUserName,
+                        ToUserName : data.FromUserName,
+                        MsgType : "text",
+                        Content : "上传图片成功！"
+                    });
+                },
+                function (error) {
+                    console.log(error);
+                    var replay_message = error.type === 1 ? error.message : "十分抱歉，e漫服务器出现错误，请稍后重试!";
+                    wechat.send({
+                        FromUserName : data.ToUserName,
+                        ToUserName : data.FromUserName,
+                        MsgType : "text",
+                        Content : replay_message
+                    });
+                }
+            );
         });
 
         wechat.all(function (data) {
