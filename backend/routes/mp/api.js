@@ -2,7 +2,10 @@ var crypto = require('crypto'),
     xml2js = require('xml2js'),
     path = require('path');
 
-var config = require('./../../../config')
+
+var config = require('./../../../config');
+
+var wechat = require('node-wechat')(config.mp.token);
 
 var verify_signature = function (req, res) {
 
@@ -46,68 +49,32 @@ module.exports = {
     },
     new_mp_message: function (req, res, context) {
         console.log(context);
-        if (verify_signature(req, res)) {
-            var post_data = '';
-            req.on('data', function (chunk) {
-                post_data += chunk;
-            });
-            req.on('end', function () {
-                xml2js.parseString(post_data, function (err, json) {
-                    if (err) {
-                        err.status = 400;
-                        res.status(400).json({ message: 'XML parse error.' });
-                    } else {
-                        req.body = json;
-                        console.log(json);
+        //检验 token
+        wechat.checkSignature(req, res);
+        //预处理
+        wechat.handler(req, res);
 
-                        var msgType = json.xml.MsgType[0] ? json.xml.MsgType[0] : 'text';
-                        switch (msgType) {
-                            case 'text':
-                                var msg = {
-                                    "toUserName": json.xml.ToUserName[0],
-                                    "fromUserName": json.xml.FromUserName[0],
-                                    "createTime": json.xml.CreateTime[0],
-                                    "msgType": json.xml.MsgType[0],
-                                    "content": json.xml.Content[0],
-                                    "msgId": json.xml.MsgId[0],
-                                };
-                                console.log(msg);
+        //监听文本信息
+        wechat.text(function (data) {
 
-                                var time = Math.round(new Date().getTime() / 1000);
-                                var funcFlag = 0;
-                                var output = "" +
-                                    "<xml>" +
-                                    "<ToUserName><![CDATA[" + msg.fromUserName + "]]></ToUserName>" +
-                                    "<FromUserName><![CDATA[" + msg.toUserName + "]]></FromUserName>" +
-                                    "<CreateTime>" + time + "</CreateTime>" +
-                                    "<MsgType><![CDATA[" + 'text' + "]]></MsgType>" +
-                                    "<Content><![CDATA[" + 'This is a test' + "]]></Content>" +
-                                    "<FuncFlag>" + funcFlag + "</FuncFlag>" +
-                                    "</xml>";
-                                res.type('xml');
-                                res.send(output);
-                                break;
-                            case 'event':
-                                res.type('string');
-                                this.res.send('');
-                                break;
-                            case 'image':
-                                res.type('string');
-                                res.send('');
-                                break;
-                            case 'location':
-                                res.type('string');
-                                res.send('');
-                                break;
-                        }
+            //console.log(data.ToUserName);
+            //console.log(data.FromUserName);
+            //console.log(data.CreateTime);
+            //console.log(data.MsgType);
+            //...
 
-                    }
-                });
-            });
+            var msg = {
+                FromUserName : data.ToUserName,
+                ToUserName : data.FromUserName,
+                MsgType : "text",
+                Title : "宋冬野",
+                Description : "宋冬野——摩登天空7",
+                Content : "这是地址回复"
+            }
 
-        } else {
-            res.status(401).json({ message: 'signature verify failed.' });
-        }
+            //回复信息
+            wechat.send(msg);
+        });
     },
 
 };
