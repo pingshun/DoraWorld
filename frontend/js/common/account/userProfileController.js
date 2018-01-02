@@ -1,8 +1,9 @@
-common.controller('UserProfileController', ['$scope', '$rootScope', 'Lightbox', 'toastr', 'user', 'dwPicWallService',
-    function ($scope, $rootScope, Lightbox, toastr, user, dwPicWallService) {
+common.controller('UserProfileController', ['$scope', '$rootScope', 'Lightbox', 'toastr', 'user', 'dwPicWallService', 'userApi',
+    function ($scope, $rootScope, Lightbox, toastr, user, dwPicWallService, userApi) {
 
     $scope.tab = 'activities';
     $scope.user = user;
+    $scope.CONSTANT = CONSTANT;
 
     $scope.isVisitor = user.id === $rootScope.user.id;
     // Interactions
@@ -11,6 +12,17 @@ common.controller('UserProfileController', ['$scope', '$rootScope', 'Lightbox', 
     };
 
 
+
+    $scope.resetMenu = function () {
+        userApi.wxSetMenu().then(
+            function (success) {
+                console.log(success);
+            },
+            function (error) {
+                console.log(error);
+            }
+        );
+    };
 
     // pictures
     $scope.pictureReload = function () {

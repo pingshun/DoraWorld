@@ -9,8 +9,14 @@ var ejs = require('ejs');
 var passport = require('passport');
 
 var config = require('./config');
-var security = require('./backend/utils/security')
+var security = require('./backend/utils/security');
+var wxUtil = require('./backend/routes/mp/wx_util');
 
+
+var getWxTokenInterval = setInterval(function () {
+    wxUtil.getWxToken();
+}, 60 * 60 * 1000);
+wxUtil.getWxToken();
 
 var app = express();
 

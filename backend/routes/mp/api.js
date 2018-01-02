@@ -1,5 +1,6 @@
 var path = require('path');
 var wx_uploader = require('./wx_picture_uploader');
+var wx_util = require('./wx_util');
 
 
 var config = require('./../../../config');
@@ -36,6 +37,19 @@ module.exports = {
         console.log(context);
         res.sendFile('about.html', { root: path.join(config.server.fe_folder, 'wx'), title: 'express' });
     },
+    reset_menu: function (req, res, context) {
+        console.log(context);
+        wx_util.resetWxMenu().then(
+            function (success) {
+                res.status(200).send('success');
+            },
+            function (error) {
+                res.status(500).send('error');
+            }
+        );
+    },
+
+
     interface_connect: function (req, res, context) {
         console.log(context);
 
@@ -98,7 +112,10 @@ module.exports = {
 
         //监听图片信息
         wechat.image(function (data) {
+            console.log('---------');
             console.log(data);
+            console.log('=========');
+
             wx_uploader.add_picture(data.FromUserName, data.CreateTime, data.PicUrl).then(
                 function (success) {
                     wechat.send({

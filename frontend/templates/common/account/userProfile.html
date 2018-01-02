@@ -58,6 +58,11 @@
                         <i class="fa fa-pencil-square-o"></i> <span ng-if="isVisitor">我</span><span ng-if="!isVisitor">Ta</span>的贡献
                     </a>
                 </li>
+                <li role="presentation" ng-show="user.role === CONSTANT.USER_ROLE_ADMIN" ng-class="{ active: tab === 'wx_management' }" ng-click="switchTab('wx_management')">
+                    <a>
+                        <i class="fa fa-pencil-square-o"></i> 微信管理
+                    </a>
+                </li>
             </ul>
             <br/><br/>
             <div ng-if="tab === 'activities'">
@@ -115,6 +120,16 @@
 
                         </ul>
                     </div>
+                </div>
+            </div>
+            <div ng-if="tab === 'wx_management'">
+                <div class="col-sm-12">
+                    <span style="color: darkgray">
+                        <strong>重置菜单:</strong>
+                    </span>
+                    <span>
+                        <button type="button" class="btn btn-sm btn-success pull-right" ng-click="resetMenu()">重置</button>
+                    </span>
                 </div>
             </div>
         </div>

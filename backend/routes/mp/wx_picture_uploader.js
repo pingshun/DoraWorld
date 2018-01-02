@@ -48,6 +48,7 @@ module.exports = {
         return defer.promise;
     },
     add_picture: function (wx_user_id, time, picture_url) {
+        console.log('run into add_pic');
         var defer = Q.defer();
         wx_picture.getsByFields({
             wx_user_id: wx_user_id,

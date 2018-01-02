@@ -9,6 +9,14 @@ common.factory('userApi', ['$http', 'promiseService', function($http, promiseSer
                     promise.resolve(res.data);
                 }, promise.reject);
             });
+        },
+
+        wxSetMenu: function () {
+            return promiseService.wrap(function(promise) {
+                $http.get(CONSTANT.HOST + 'mp/resetMenu').then(function (res) {
+                    promise.resolve(res.data);
+                }, promise.reject);
+            });
         }
     }
 }]);
