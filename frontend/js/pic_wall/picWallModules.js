@@ -53,8 +53,9 @@ dwModules.provider('dwPicWallService', ['$httpProvider', function() {
                     return promiseService.wrap(function(promise) {
                         dwPicWallApi.getAllPictures(user_id).then(
                             function (data) {
+                                var prefix = 'http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=';
                                 angular.forEach(data, function (image, index) {
-                                   data[index]['url'] = image.from_wx ? image.file_name : 'images/pic_wall/' + image.file_name;
+                                   data[index]['url'] = (image.from_wx ? prefix : 'images/pic_wall/') + image.file_name;
                                    data[index]['caption'] = image.message;
                                 });
                                 promise.resolve(data);
