@@ -1,10 +1,12 @@
 var Q = require('q');
+var wechat_api = require('wechat-api');
 
 var wx_picture = require('./../../models/picture_from_wx');
 var dw_picture = require('./../../models/dw_picture');
 var config = require('./../../../config');
 
-var wechatApi = require('wechat-api')(config.mp.id, config.mp.secret, function () {
+
+var wechatApi = new wechat_api(config.mp.id, config.mp.secret, function () {
     return global.wx_access_token;
 });
 
