@@ -1,7 +1,12 @@
-const Q = require('q');
+var Q = require('q');
 
 var wx_picture = require('./../../models/picture_from_wx');
 var dw_picture = require('./../../models/dw_picture');
+var config = require('./../../../config');
+
+var wechatApi = require('wechat-api')(config.mp.id, config.mp.secret, function () {
+    return global.wx_access_token;
+});
 
 module.exports = {
     start: function (wx_user_id, start_time) {
@@ -78,6 +83,12 @@ module.exports = {
                                 file_name: picture_url,
                                 from_wx: 1,
                             };
+
+                            // get media
+                            wechatApi.getMedia(function (err, result, res) {
+                                console.log(res);
+                            });
+
                             dw_picture.createNew(picture, function (err, result) {
                                 if (error) {
                                     defer.reject(error);
