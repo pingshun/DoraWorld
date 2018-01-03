@@ -40,8 +40,8 @@
 
 .bt-menu-trigger {
 	position: fixed;
-	right: 15px;
-	bottom: 15px;
+	left: 15px;
+	top: 15px;
 	z-index: 100;
 	display: block;
 	width: 40px;
@@ -117,23 +117,25 @@
 }
 
 .bt-menu ul:first-of-type {
-	right: 0;
-	bottom: 60px;
+	left: 60px;
+	top: 0px;
 }
 
 .bt-menu ul:nth-of-type(2) {
-	right: 60px;
-	bottom: 0px;
+	left: 0px;
+	top: 60px;
+
 }
 
 .bt-menu ul:first-of-type li,
 .bt-menu ul li a {
-	display: block;
+	display: inline-block;
+	font-size: 0px;
 }
 
 .bt-menu ul:nth-of-type(2) li {
-	display: inline-block;
-	font-size: 0px;
+	display: block;
+
 }
 
 .bt-menu ul li {
