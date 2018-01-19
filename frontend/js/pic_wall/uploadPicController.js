@@ -23,6 +23,7 @@ dwControllers.controller('UploadPicController', ['$scope', '$rootScope', '$uibMo
     }
 
     $scope.save = function () {
+        $scope.uploading = true;
         dwPicWallService.uploadPicture($scope.uploaded_file, $scope.message)
             .then(
                 function (data) {
